@@ -1,0 +1,37 @@
+Always before take a decision, look at @directory_structure.md to informations about directory structure.
+Always update @directory_structure.md when changes in directory structure plan happens.
+Always refer to @db_structure.md to supabase database informations.
+Always update @db_structure.md when db changes happens.
+
+Before create any folder or file be sure to read @directory_structure to avoid at any costs to duplicate elements
+
+API Routes su Next.js per calcoli, preventivi e ordini.
+Serverless Functions per elaborazioni complesse (ad esempio calcoli dimensioni) senza bloccare il thread principale.
+Middleware per autorizzazioni basate sul ruolo.
+Componenti React riutilizzabili per tabelle, form, grafici.
+Strato di accesso ai dati (DAO) separato dalle pagine, per migliorare la manutenibilità.
+Struttura delle Directory (Bozza)
+
+pages/: viste e routing.
+components/: elementi UI riutilizzabili.
+lib/: logica condivisa, integrazioni esterne, utility.
+models/: definizioni tipologiche dei dati.
+services/: funzioni per interagire con il DB e implementare la business logic.
+data/ e docs/: risorse di riferimento (CSV, JSON, documentazione).
+scripts/: utilità per migrazioni e import dati.
+
+Maintain a clean, modern UI with a minimalist design approach. Use a consistent font family (e.g., Inter or Roboto) with clear typography hierarchy. Stick to a neutral color palette with subtle accents for interactivity (e.g., soft blues or greens for buttons and highlights). Borders should be subtle, using 1px solid with light gray tones. Radius for corners should be uniform, around 8px for buttons, cards, and inputs. Use shadowing sparingly, opting for soft, low-opacity shadows for depth. Prioritize spacious layouts with clear padding (16-24px) and intuitive navigation. Ensure hover and active states for all interactive elements to enhance UX.
+
+FrameFlow is a modular web application designed to optimize workflows for suppliers, window installers, and end clients in the window and door industry. It provides tools for managing catalogs, quotes, orders, and advanced dimensional calculations. The platform is built on a serverless architecture with a Next.js frontend and Supabase backend, ensuring scalability and flexibility.
+
+The app has three primary roles: Supplier, Installer, and End Client. Suppliers manage product catalogs, profiles, and dimensional rules. Installers can browse the supplier's catalog, create quotes for clients, and perform advanced dimensional calculations based on predefined rules. End clients can view and approve quotes and track their order statuses.
+
+Key database tables include users for role-based authentication, products for catalog management, profiles for materials and profiles used in dimensional calculations, window_types to define standard frame types, dimension_rules for applying parametric rules to measurements, quotes and quote_items for managing client proposals, and orders for tracking statuses. Data relationships ensure seamless interaction between suppliers, installers, and clients.
+
+The backend uses serverless API routes for operations such as user authentication, catalog management, quote creation, and dimension calculation. The dimensionEngine reads rules stored in the database and applies formulas to calculate dimensions, material requirements, and costs. Calculations include linear profiles, glass costs, and additional parameters based on frame type.
+
+Suppliers have access to dashboards for product and profile management, ensuring real-time updates to their offerings. Installers can create personalized quotes by selecting products, specifying dimensions, and applying quantity-based calculations. End clients interact with the system through a streamlined interface to view quotes and approve orders.
+
+The platform integrates third-party tools like Stripe for payment processing, Algolia for fast product search, SendGrid and Twilio for notifications, and Supabase for storage and data handling. Optional APIs allow uploading technical documentation or profiles directly from external repositories.
+
+Overall, FrameFlow streamlines interactions across roles, automates complex calculations, and enhances operational efficiency through an intuitive interface and robust backend.
