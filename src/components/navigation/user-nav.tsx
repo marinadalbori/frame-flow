@@ -1,7 +1,5 @@
-'use client'
-
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import { Button } from '@/components/ui/button'
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Button } from "@/components/ui/button"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -9,49 +7,52 @@ import {
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
-  DropdownMenuShortcut,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
+} from "@/components/ui/dropdown-menu"
+import { useSupabaseClient, useUser } from "@supabase/auth-helpers-react"
+import { useRouter } from "next/navigation"
 
 export function UserNav() {
+  const supabase = useSupabaseClient()
+  const user = useUser()
+  const router = useRouter()
+
+  const handleSignOut = async () => {
+    await supabase.auth.signOut()
+    router.push("/login")
+  }
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" className="relative h-8 w-8 rounded-full">
           <Avatar className="h-8 w-8">
-            <AvatarImage src="/avatars/01.png" alt="@username" />
-            <AvatarFallback>SC</AvatarFallback>
+            <AvatarImage src={user?.user_metadata?.avatar_url} alt={user?.email || ""} />
+            <AvatarFallback>{user?.email?.charAt(0).toUpperCase()}</AvatarFallback>
           </Avatar>
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56" align="end" forceMount>
         <DropdownMenuLabel className="font-normal">
           <div className="flex flex-col space-y-1">
-            <p className="text-sm font-medium leading-none">Mario Rossi</p>
+            <p className="text-sm font-medium leading-none">{user?.email}</p>
             <p className="text-xs leading-none text-muted-foreground">
-              m.rossi@example.com
+              {user?.email}
             </p>
           </div>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          <DropdownMenuItem>
-            Profilo
-            <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
+          <DropdownMenuItem onClick={() => router.push("/dashboard")}>
+            Dashboard
           </DropdownMenuItem>
-          <DropdownMenuItem>
-            Fatturazione
-            <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
-          </DropdownMenuItem>
-          <DropdownMenuItem>
+          <DropdownMenuItem onClick={() => router.push("/settings")}>
             Impostazioni
-            <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
           </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
-        <DropdownMenuItem className="text-red-600">
+        <DropdownMenuItem onClick={handleSignOut}>
           Logout
-          <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
